@@ -27,13 +27,20 @@ class equation:
         self.term_right_ = term_right
         self.term_left_ = term_left
         self.symbols_ = symbols
+        self.unit_right_term = unit_right_term{}
     # def get_symbols(self):
     #     symbols =[]
     #     for i in (term_left+term_right):
     #         if 
-    def add_unit_right_term(self, unit_right_term=str):
-        self.unit_right_term_=unit_right_term
-            
+    def add_unit_right_term(self,symbol=str unit_right_term=str):
+        try:
+            self.symbols_[symbol]
+            self.unit_right_term_[symbol]=unit_right_term
+            return True
+        except
+            return None
+        
+
     def term_right(self):
         return(self.term_right_)
     
