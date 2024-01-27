@@ -13,7 +13,8 @@ def main():
     table = read_from_csv('Brennweitenbestimmung mit der Linsenformel')[0]
     #setup equations
     equations = []
-    equations.append(equation('1/(1/(g)+1/b)','f', 'mm'))
+    equations.append(equation('1/(1/(g)+1/b)','f', 'g', 'b', 'f'))
+    equations[len(equations)].unit_right_term('g','mm')
 
     print(calculate_total_error(equations[0].term_left(), table,"g","b"))
     print_latex_error_calculation(equations[0],table,units,"g", "b") ##
