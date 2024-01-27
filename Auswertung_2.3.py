@@ -28,7 +28,7 @@ class equation:
         self.term_right_ = term_right
         self.term_left_ = term_left
         self.symbols_ = symbols
-        self.unit_right_term ={}
+        self.unit_right_term_ ={}
     # def get_symbols(self):
     #     symbols =[]
     #     for i in (term_left+term_right):
@@ -53,6 +53,10 @@ class equation:
     
     def unit_right_term (self, symbol=str):
         return(self.unit_right_term_[symbol])
+    
+    def unit_term(self):
+        if(len(self.unit_right_term_) == 1):
+            return(self.unit_right_term_.item()[1])
     
 partial_derivative=[[],[]]  # Gleichung, Variable
 a_error_operator=[]
