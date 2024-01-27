@@ -8,11 +8,11 @@ from uncertainties import ufloat, unumpy
 import sympy as sp
 import math
 
+def user_input():
+    #left term und right term noch vertauscht
+    eq_=equation('a^2*b^2', 'w', 'N * m' ' a b w')
 
-formel_einheit
-
-
-
+        
 #scipyoptimised
 runden_auf_n_stellen=4
 class equation:
@@ -24,7 +24,9 @@ class equation:
     #     symbols =[]
     #     for i in (term_left+term_right):
     #         if 
-
+    def add_unit_right_term(self, unit_right_term=str):
+        self.unit_right_term_=unit_right_term
+            
     def term_right(self):
         return(self.term_right_)
     
@@ -32,7 +34,10 @@ class equation:
         return(self.term_left_)
 
     def symbols(self):
-        return(self.symbols)    
+        return(self.symbols)  
+    
+    def unit_right_term (self):
+        return(self.unit_right_term_)
     
 partial_derivative=[[],[]]  # Gleichung, Variable
 a_error_operator=[]
@@ -62,20 +67,22 @@ def read_from_csv(filename, delimiter = ";"):
                     table[reading_table[i]].append(float(line[i]))
     return (table,units)
 
-j = 0
+
+j = 0 # j für j verschiedene Messwerte
 def print_latex_error_calculation(eq=equation, table = {}, units = {},*var):
     global j
     for j in range(len(table[list(table.keys())[0]])):
         latex_deriv=''
         latex_deriv_with_numbers=''
-        for var_ in  range(1,len(var)):
+        for var_ in  range(0,len(var)):
             latex_deriv += f'\\Delta {var[var_]}_\u007b{j}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
-            latex_deriv_with_numbers += f'+ {sp.latex((sp.diff(eq.term_left(),var[var_]).subs({var[var_]: table[var[var_]][j]})))}'#Ableitung mit Zahlen, ok
+            latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: table[var[var_]][j]})))} \cdot {units[var[var_]]}'#
+            #Ableitung mit Zahlen, ok
 
-        latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} formel_einheit\\end\u007bequation\u007d\\\\' 
+        '''latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} eq_term_right_unit\\end\u007bequation\u007d\\\\' '''
 
         #Müsste das nicht so?   {eq.term_right()}
-        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} {formel_einheit}\\end\u007bequation\u007d\\\\' 
+        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.term_right_unit} = {runde(calculate_total_error(eq.term_left, table, *var))} {eq.term_right_unit}\\end\u007bequation\u007d\\\\' 
 
         print(latex_error_calculation)
         j += 1
@@ -88,10 +95,10 @@ def insert_numbers(term = str, table = {},table_row = int,  *var):
         pass
     return(eq_with_numbers)
 
-def calculate_value_and_unit():
+'''def calculate_value_and_unit():
     value=insert_numbers(eq.term_left(),table,j, *var)
     unit= eq.term_left()
-    return(value, unit)
+    return(value, unit)'''
 
 
 def calculate_total_error(term = str, table ={}, *var): #var_number durch schlüssel ersetzen
@@ -102,7 +109,7 @@ def calculate_total_error(term = str, table ={}, *var): #var_number durch schlü
         for i in range(0,len(table[var_])):
             subtable = {key: value[i] for key, value in table.items()}
             var_error.append(par_derivative.subs(subtable)* table[var_ + "+"][i])
-        wird der Betrag verwendet?
+        #wird der Betrag verwendet?
 
         #var_error=calculate_error(term, var_, table[var_], table[var_ + "+"])  #nimmt nur den ersten return wert
         eq_left_total_error=np.add(eq_left_total_error, var_error)      #var_error Liste der Fehler der Variable zum Messwert j 
