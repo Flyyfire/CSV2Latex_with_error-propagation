@@ -10,7 +10,7 @@ import math
 
 def main():
     #left term und right term noch vertauscht
-    table , units= read_from_csv('Brennweitenbestimmung mit der Linsenformel')
+    table , units= read_from_csv('Brennweiten Testtabelle')
     #setup equations
     equations = []
     equations.append(equation('1/(1/(g)+1/b)','f', 'g', 'b', 'f'))
