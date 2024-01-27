@@ -8,6 +8,11 @@ from uncertainties import ufloat, unumpy
 import sympy as sp
 import math
 
+
+formel_einheit
+
+
+
 #scipyoptimised
 runden_auf_n_stellen=4
 class equation:
@@ -58,15 +63,20 @@ def read_from_csv(filename, delimiter = ";"):
     return (table,units)
 
 j = 0
-def print_latex_error_calculation(eq=equation, table = {},units = {},*var):
+def print_latex_error_calculation(eq=equation, table = {}, units = {},*var):
     global j
     for j in range(len(table[list(table.keys())[0]])):
         latex_deriv=''
         latex_deriv_with_numbers=''
         for var_ in  range(1,len(var)):
-            latex_deriv += f'\\Delta {var[var_]}_\u007b{j}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Werte
-            latex_deriv_with_numbers += f'+ {sp.latex(sp.diff(eq.term_left(),var[var_]).subs({var[var_]: table[var[var_]][j]}))}'#Ableitung mit Zahlen
+            latex_deriv += f'\\Delta {var[var_]}_\u007b{j}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
+            latex_deriv_with_numbers += f'+ {sp.latex((sp.diff(eq.term_left(),var[var_]).subs({var[var_]: table[var[var_]][j]})))}'#Ableitung mit Zahlen, ok
+
         latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} formel_einheit\\end\u007bequation\u007d\\\\' 
+
+        #Müsste das nicht so?   {eq.term_right()}
+        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} {formel_einheit}\\end\u007bequation\u007d\\\\' 
+
         print(latex_error_calculation)
         j += 1
     return(latex_error_calculation)
