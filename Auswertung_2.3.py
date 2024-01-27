@@ -101,7 +101,7 @@ def print_latex_error_calculation(eq=equation, table = {}, units = {},*var):
         '''latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} eq_term_right_unit\\end\u007bequation\u007d\\\\' '''
 
         #Müsste das nicht so?   {eq.term_right()}
-        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table, *var))} {eq.unit_right_term()}\\end\u007bequation\u007d\\\\' 
+        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table, *var)[j],6)} {eq.unit_term()}\\end\u007bequation\u007d\\\\' 
 
         print(latex_error_calculation)
         j += 1
@@ -134,7 +134,7 @@ def calculate_total_error(term = str, table ={}, *var): #var_number durch schlü
         eq_left_total_error=np.add(eq_left_total_error, var_error)      #var_error Liste der Fehler der Variable zum Messwert j 
     return(eq_left_total_error)
 
-def runde(zahl,runden_auf_n_stellen):
+def runde(zahl = float,runden_auf_n_stellen = int):
     # runde auf insgesammt 4 stellen
     if zahl == 0:
         return 0
