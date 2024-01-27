@@ -14,7 +14,7 @@ def main():
     #setup equations
     equations = []
     equations.append(equation('1/(1/(g)+1/b)','f', 'g', 'b', 'f'))
-    equations[len(equations)-1].unit_right_term('g','mm')
+    equations[0].add_unit_right_term('g','mm')
 
     print(calculate_total_error(equations[0].term_left(), table,"g","b"))
     print_latex_error_calculation(equations[0],table,units,"g", "b") ##
@@ -28,7 +28,7 @@ class equation:
         self.term_right_ = term_right
         self.term_left_ = term_left
         self.symbols_ = symbols
-        self.unit_right_term = unit_right_term{}
+        self.unit_right_term ={}
     # def get_symbols(self):
     #     symbols =[]
     #     for i in (term_left+term_right):
@@ -38,7 +38,7 @@ class equation:
             self.symbols_[symbol]
             self.unit_right_term_[symbol]=unit_right_term
             return True
-        except
+        except:
             return None
         
 
