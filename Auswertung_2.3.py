@@ -8,10 +8,17 @@ from uncertainties import ufloat, unumpy
 import sympy as sp
 import math
 
-def user_input():
+def main():
     #left term und right term noch vertauscht
-    eq_=equation('a^2*b^2', 'w', 'N * m' ' a b w')
+    table = read_from_csv('Brennweitenbestimmung mit der Linsenformel')[0]
+    #setup equations
+    equations = []
+    equations.append(equation('1/(1/(g)+1/b)','f', 'mm'))
 
+    print(calculate_total_error(equations[0].term_left(), table,"g","b"))
+    print_latex_error_calculation(equations[0],table,units,"g", "b") ##
+    #funktionen berechnen
+    #res = calculate_total_error(equations[0],table)
         
 #scipyoptimised
 runden_auf_n_stellen=4
@@ -108,7 +115,7 @@ def calculate_total_error(term = str, table ={}, *var): #var_number durch schlü
         par_derivative = sp.diff(term, var_)
         for i in range(0,len(table[var_])):
             subtable = {key: value[i] for key, value in table.items()}
-            var_error.append(par_derivative.subs(subtable)* table[var_ + "+"][i])
+            var_error.append(par_derivative.subs(subtable)* table[var_ + '+'][i])
         #wird der Betrag verwendet?
 
         #var_error=calculate_error(term, var_, table[var_], table[var_ + "+"])  #nimmt nur den ersten return wert
@@ -124,17 +131,6 @@ def runde(zahl,runden_auf_n_stellen):
         return round(zahl * potenz) / potenz
     else:
         return round(zahl, runden_auf_n_stellen - len(str(int(abs(zahl)))))
-
-def main():
-    table = read_from_csv('Brennweitenbestimmung mit der Linsenformel')[0]
-    #setup equations
-    equations = []
-    equations.append(equation("1/(1/(g)+1/b)","z"))
-
-    print(calculate_total_error(equations[0].term_left(),table,"g","b"))
-    print_latex_error_calculation(equations[0],table,units,"g", "b") ##
-    #funktionen berechnen
-    #res = calculate_total_error(equations[0],table)
 
 if __name__ == "__main__":
     skript_verzeichnis = os.path.dirname(os.path.abspath(__file__)) #Aktuelles Skript-Verzeichnis als Arbeitsverzeichnis setzen
