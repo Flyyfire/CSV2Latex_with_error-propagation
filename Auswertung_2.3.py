@@ -33,7 +33,7 @@ class equation:
     #     symbols =[]
     #     for i in (term_left+term_right):
     #         if 
-    def add_unit_right_term(self,symbol=str unit_right_term=str):
+    def add_unit_right_term(self,symbol=str, unit_right_term=str):
         try:
             self.symbols_[symbol]
             self.unit_right_term_[symbol]=unit_right_term
