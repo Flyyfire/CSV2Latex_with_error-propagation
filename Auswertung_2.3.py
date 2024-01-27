@@ -51,8 +51,8 @@ class equation:
     def symbols(self):
         return(self.symbols)  
     
-    def unit_right_term (self):
-        return(self.unit_right_term_)
+    def unit_right_term (self, symbol=str):
+        return(self.unit_right_term_[symbol])
     
 partial_derivative=[[],[]]  # Gleichung, Variable
 a_error_operator=[]
@@ -97,7 +97,7 @@ def print_latex_error_calculation(eq=equation, table = {}, units = {},*var):
         '''latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} eq_term_right_unit\\end\u007bequation\u007d\\\\' '''
 
         #Müsste das nicht so?   {eq.term_right()}
-        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.term_right_unit} = {runde(calculate_total_error(eq.term_left, table, *var))} {eq.term_right_unit}\\end\u007bequation\u007d\\\\' 
+        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table, *var))} {eq.unit_right_term()}\\end\u007bequation\u007d\\\\' 
 
         print(latex_error_calculation)
         j += 1
