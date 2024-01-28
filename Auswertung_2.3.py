@@ -90,9 +90,11 @@ def read_from_csv(filename, delimiter = ";"):
 j = 0 # j für j verschiedene Messwerte
 def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
     global runden_auf_n_stellen
+    #for loop over every entry of the table.
     for table_index in range(len(table[list(table.keys())[0]])):
         latex_deriv=''
         latex_deriv_with_numbers=''
+        #for loop for every symbol that shou by 
         for var_ in  range(0,len(var)):
             latex_deriv += f'\\Delta {var[var_]}_\u007b{table_index}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
 
@@ -158,16 +160,18 @@ def runde(zahl = float, runden_auf_n_stellen = int):
     else:
         return round(zahl, runden_auf_n_stellen - len(str(int(abs(zahl)))))
     
-def runde_array(var, runden_auf_n_stellen = int):
+def runde_array(var = list[int], runden_auf_n_stellen = int):
     # runde auf insgesammt 4 stellen
-    for i in range(0,len(var)):
-        if var[i] == 0:
-            return 0
-        elif abs(var[i]) < 1:
-            potenz = 10 ** (runden_auf_n_stellen - len(str(int(abs(var[i])))))
-            return round(var[i] * potenz) / potenz
+    return_ = []
+    for i in var:
+        if i == 0:
+            return_.append(0)
+        elif abs(i) < 1:
+            potenz = 10 ** (runden_auf_n_stellen - len(str(int(abs(i)))))
+            return_.append(round(i * potenz) / potenz)
         else:
-            return round(var[i], runden_auf_n_stellen - len(str(int(abs(var[i])))))
+            return_.append(round(i, runden_auf_n_stellen - len(str(int(abs(i))))))
+    return(return_)
 
 if __name__ == "__main__":
     skript_verzeichnis = os.path.dirname(os.path.abspath(__file__)) #Aktuelles Skript-Verzeichnis als Arbeitsverzeichnis setzen
