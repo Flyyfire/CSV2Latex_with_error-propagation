@@ -87,11 +87,11 @@ def read_from_csv(filename, delimiter = ";"):
     return (table,units)
 
 
-j = 0 # j für j verschiedene Messwerte
-def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
+j = 0  
+def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var): #dict ist datentyp
     global runden_auf_n_stellen
     #for loop over every entry of the table.
-    for table_index in range(len(table[list(table.keys())[0]])):
+    for table_index in range(len(table[list(table.keys())[0]])): #j für j verschiedene Messwerte
         latex_deriv=''
         latex_deriv_with_numbers=''
         #for loop for every symbol that shou by 
@@ -99,17 +99,11 @@ def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
             latex_deriv += f'\\Delta {var[var_]}_\u007b{table_index}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
 
             #Ableitung mit Zahlen            
-            latex_deriv_with_numbers += f'+ {sp.latex( insert_numbers(sp.diff(eq.term_left(),var[var_]),table, table_index, runde_array(list(table.items())[table_index], runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'
+            latex_deriv_with_numbers += f'+ {sp.latex( insert_numbers(sp.diff(eq.term_left(),var[var_]),table, table_index, runde_array(list(table.items())[table_index], runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'# da die ersten beiden Zeilen andere Werte enthalten
 
             #Das  was hier für eine Variable gemacht wird soll für alle gemacht werden. (das Folgende ist die alte Version)
             #latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: runde((table[var[var_]][j]), runden_auf_n_stellen)})))} \cdot {units[var[var_]]}
             
-            
-            #Ableitung mit Zahlen, ok'''
-
-
-
-
 
 
         '''latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} eq_term_right_unit\\end\u007bequation\u007d\\\\' '''
@@ -124,7 +118,7 @@ def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
 
 def insert_numbers(term = str, table = {}, table_row = int,  *var):
     eq_with_numbers = sp.simplify(term)   #indez für verschiedene Messwerte
-    for j in range(0,len(var)):   #Anzahl Zahlen
+    for j in range(0,len(var)):    #Anzahl Zahlen
         eq_with_numbers=eq_with_numbers.subs({var[j]: table[var[j]][table_row]}) #Ersetzt alle variablem mit Wert j
         pass
     return(eq_with_numbers)
@@ -160,12 +154,15 @@ def runde(zahl = float, runden_auf_n_stellen = int):
         return round(zahl, runden_auf_n_stellen - len(str(int(abs(zahl)))))
     
 def runde_array(var = list[int], runden_auf_n_stellen = int):
-    for i in var:
+    #for i in var: 
+    for i in range(1,len(var)):     #1 da die Keys weggelassen werden sollen     
+
         if type(i) != int:
             raise TypeError("only use int as an imput type!")
     # runde auf insgesammt n stellen
     return_ = []
-    for i in var:
+    #for i in var:
+    for i in range(1,len(var)):     #1 da die Keys weggelassen werden sollen     
         if i == 0:
             return_.append(0)
         elif abs(i) < 1:
