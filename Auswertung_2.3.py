@@ -154,15 +154,15 @@ def runde(zahl = float, runden_auf_n_stellen = int):
         return round(zahl, runden_auf_n_stellen - len(str(int(abs(zahl)))))
     
 def runde_array(var = list[int], runden_auf_n_stellen = int):
-    #for i in var: 
-    for i in range(1,len(var)):     #1 da die Keys weggelassen werden sollen     
+    for i in var: 
+    #for i in range(1,len(var)):     #1 da die Keys weggelassen werden sollen     
 
         if type(i) != int:
             raise TypeError("only use int as an imput type!")
     # runde auf insgesammt n stellen
     return_ = []
-    #for i in var:
-    for i in range(1,len(var)):     #1 da die Keys weggelassen werden sollen     
+    for i in var:
+    #for i in range(1,len(var)):     #1 da die Keys weggelassen werden sollen     
         if i == 0:
             return_.append(0)
         elif abs(i) < 1:
