@@ -98,8 +98,7 @@ def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
         for var_ in  range(0,len(var)):
             latex_deriv += f'\\Delta {var[var_]}_\u007b{table_index}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
 
-            #Ableitung mit Zahlen
-            
+            #Ableitung mit Zahlen            
             latex_deriv_with_numbers += f'+ {sp.latex( insert_numbers(sp.diff(eq.term_left(),var[var_]),table, table_index, runde_array(list(table.items())[table_index], runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'
 
             #Das  was hier für eine Variable gemacht wird soll für alle gemacht werden. (das Folgende ist die alte Version)
@@ -151,7 +150,7 @@ def calculate_total_error(term = str, table ={}, *var): #var_number durch schlü
     return(eq_left_total_error)
 
 def runde(zahl = float, runden_auf_n_stellen = int):
-    # runde auf insgesammt 4 stellen
+    # runde auf insgesammt n stellen
     if zahl == 0:
         return 0
     elif abs(zahl) < 1:
@@ -161,8 +160,8 @@ def runde(zahl = float, runden_auf_n_stellen = int):
         return round(zahl, runden_auf_n_stellen - len(str(int(abs(zahl)))))
     
 def runde_array(var = list[int], runden_auf_n_stellen = int):
-    # runde auf insgesammt 4 stellen
-    return_ = []
+    # runde auf insgesammt n stellen
+    return_ = y[]
     for i in var:
         if i == 0:
             return_.append(0)
