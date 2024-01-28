@@ -95,21 +95,30 @@ def print_latex_error_calculation(eq=equation, table = {}, units = {},*var):
         latex_deriv_with_numbers=''
         for var_ in  range(0,len(var)):
             latex_deriv += f'\\Delta {var[var_]}_\u007b{j}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
-            latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: table[var[var_]][j]})))} \cdot {units[var[var_]]}'#
-            #Ableitung mit Zahlen, ok
+
+            #Ableitung mit Zahlen
+            latex_deriv_with_numbers += f'+ {sp.latex( insert_numbers(sp.diff(eq.term_left(),var[var_]),table, j, runde_array(table[var][j]'''möchte hier auf alle Werte für die Variablen zugreifen, die in der Spalte j sind.''' , runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'
+
+            #Das  was hier für eine Variable gemacht wird soll für alle gemacht werden. (das Folgende ist die alte Version)
+            '''2:29 28.1.24 auskommentiert latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: runde((table[var[var_]][j]), runden_auf_n_stellen)})))} \cdot {units[var[var_]]}'
+            #Ableitung mit Zahlen, ok'''
+
+
+
+
+
 
         '''latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} eq_term_right_unit\\end\u007bequation\u007d\\\\' '''
 
         #Müsste das nicht so?   {eq.term_right()}
-        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table, *var)[j],6)} {eq.unit_term()}\\end\u007bequation\u007d\\\\' 
+        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table, *var)[j],runden_auf_n_stellen)} {eq.unit_term()}\\end\u007bequation\u007d\\\\' 
         '''latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table {hier nur die Zeile j}, *var))} {eq.unit_right_term()}\\end\u007bequation\u007d\\\\' '''
         
-
         print(latex_error_calculation)
         j += 1
     return(latex_error_calculation)
 
-def insert_numbers(term = str, table = {},table_row = int,  *var):
+def insert_numbers(term = str, table = {}, table_row = int,  *var):
     eq_with_numbers = sp.simplify(term)   #indez für verschiedene Messwerte
     for j in range(0,len(var)):   #Anzahl Zahlen
         eq_with_numbers=eq_with_numbers.subs({var[j]: table[var[j]][table_row]}) #Ersetzt alle variablem mit Wert j
@@ -136,7 +145,7 @@ def calculate_total_error(term = str, table ={}, *var): #var_number durch schlü
         eq_left_total_error=np.add(eq_left_total_error, var_error)      #var_error Liste der Fehler der Variable zum Messwert j 
     return(eq_left_total_error)
 
-def runde(zahl = float,runden_auf_n_stellen = int):
+def runde(zahl = float, runden_auf_n_stellen = int):
     # runde auf insgesammt 4 stellen
     if zahl == 0:
         return 0
@@ -145,6 +154,17 @@ def runde(zahl = float,runden_auf_n_stellen = int):
         return round(zahl * potenz) / potenz
     else:
         return round(zahl, runden_auf_n_stellen - len(str(int(abs(zahl)))))
+    
+def runde_array(var, runden_auf_n_stellen = int):
+    # runde auf insgesammt 4 stellen
+    for i in range(0,len(var)):
+        if var[i] == 0:
+            return 0
+        elif abs(var[i]) < 1:
+            potenz = 10 ** (runden_auf_n_stellen - len(str(int(abs(var[i])))))
+            return round(var[i] * potenz) / potenz
+        else:
+            return round(var[i], runden_auf_n_stellen - len(str(int(abs(var[i])))))
 
 if __name__ == "__main__":
     skript_verzeichnis = os.path.dirname(os.path.abspath(__file__)) #Aktuelles Skript-Verzeichnis als Arbeitsverzeichnis setzen
