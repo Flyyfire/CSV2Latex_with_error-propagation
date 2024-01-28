@@ -160,8 +160,11 @@ def runde(zahl = float, runden_auf_n_stellen = int):
         return round(zahl, runden_auf_n_stellen - len(str(int(abs(zahl)))))
     
 def runde_array(var = list[int], runden_auf_n_stellen = int):
+    for i in var:
+        if type(i) != int:
+            raise TypeError("only use int as an imput type!")
     # runde auf insgesammt n stellen
-    return_ = y[]
+    return_ = []
     for i in var:
         if i == 0:
             return_.append(0)
