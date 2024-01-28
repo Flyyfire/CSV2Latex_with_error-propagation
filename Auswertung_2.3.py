@@ -88,19 +88,22 @@ def read_from_csv(filename, delimiter = ";"):
 
 
 j = 0 # j für j verschiedene Messwerte
-def print_latex_error_calculation(eq=equation, table = {}, units = {},*var):
-    global j
-    for j in range(len(table[list(table.keys())[0]])):
+def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
+    global runden_auf_n_stellen
+    for table_index in range(len(table[list(table.keys())[0]])):
         latex_deriv=''
         latex_deriv_with_numbers=''
         for var_ in  range(0,len(var)):
-            latex_deriv += f'\\Delta {var[var_]}_\u007b{j}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
+            latex_deriv += f'\\Delta {var[var_]}_\u007b{table_index}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
 
             #Ableitung mit Zahlen
-            latex_deriv_with_numbers += f'+ {sp.latex(insert_numbers(sp.diff(eq.term_left(),var[var_]),table, j, runde_array(table[var][j]'''möchte hier auf alle Werte für die Variablen zugreifen, die in der Spalte j sind.''' , runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'
+            
+            latex_deriv_with_numbers += f'+ {sp.latex( insert_numbers(sp.diff(eq.term_left(),var[var_]),table, table_index, runde_array(list(table.items())[table_index], runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'
 
             #Das  was hier für eine Variable gemacht wird soll für alle gemacht werden. (das Folgende ist die alte Version)
-            '''2:29 28.1.24 auskommentiert latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: runde((table[var[var_]][j]), runden_auf_n_stellen)})))} \cdot {units[var[var_]]}'
+            #latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: runde((table[var[var_]][j]), runden_auf_n_stellen)})))} \cdot {units[var[var_]]}
+            
+            
             #Ableitung mit Zahlen, ok'''
 
 
