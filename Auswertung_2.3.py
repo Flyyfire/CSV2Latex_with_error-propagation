@@ -178,7 +178,7 @@ def runde_array(var = list[float], runden_auf_n_stellen = int):
     for i in var:     #1 da die Keys weggelassen werden sollen     
 
         if type(i) != int or type(i) != float:
-            raise TypeError("only use int as an imput type!")
+            raise TypeError("only use int as an imput type! : " + str(type(i)))
     # runde auf insgesammt n stellen
     return_ = []
     #for i in var:
