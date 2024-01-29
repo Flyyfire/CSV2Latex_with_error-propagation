@@ -86,33 +86,30 @@ def read_from_csv(filename, delimiter = ";"):
                     table[reading_table[i]].append(float(line[i]))
     return (table,units)
 
-
 table_index = 0  
 def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var): #dict ist datentyp
     global runden_auf_n_stellen
     #for loop over every entry of the table.
 
-    '''#Muss hier hier nicht durch jede Spalte anstatt jede Zeile?
-    for table_index in range(len(table[list(table.keys())[0]])): #j für j verschiedene Messwerte '''
-    for table_index in range(len(table.keys())): #falsch da die Schleife dadrunter das gleiche macht
+    for table_index in range(len(table[list(table.keys())[0]])): #j für j verschiedene Messwerte 
+    #for table_index in range(len(table.keys())): #falsch da die Schleife dadrunter das gleiche macht
         latex_deriv=''
         latex_deriv_with_numbers=''
         #for loop for every symbol that shou by 
         for var_ in  range(0,len(var)):
-            latex_deriv += f'\\Delta {var[var_]}_\u007b{table_index}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
+            latex_deriv += f'\\Delta {var[var_]}_\u007b{table_index}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}' #Ableitung ohne Wert, ok
 
             #Ableitung mit Zahlen            
-            latex_deriv_with_numbers += f'+ {sp.latex( insert_numbers_for_variables(sp.diff(eq.term_left(),var[var_]),table, table_index, runde_array(list(table.items())[table_index][1], runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'# da die ersten beiden Zeilen andere Werte enthalten
+            latex_deriv_with_numbers += f' ab hier nummern+ {sp.latex( insert_numbers_for_variables(sp.diff(eq.term_left(),var[var_]),table, table_index, runde_array(list(table.items())[table_index][1], runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'# da die ersten beiden Zeilen andere Werte enthalten
 
             #Das  was hier für eine Variable gemacht wird soll für alle gemacht werden. (das Folgende ist die alte Version)
             #latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: runde((table[var[var_]][j]), runden_auf_n_stellen)})))} \cdot {units[var[var_]]}
             
 
-
         '''latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} eq_term_right_unit\\end\u007bequation\u007d\\\\' '''
 
         #Müsste das nicht so?   {eq.term_right()}
-        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{table_index}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table, *var)[table_index],runden_auf_n_stellen)} {eq.unit_term()}\\end\u007bequation\u007d\\\\' 
+        latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{table_index}\u007d = {latex_deriv} = {latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table, *var)[table_index],runden_auf_n_stellen)} {eq.unit_term()}\\end\u007bequation\u007d\\\\' 
         '''latex_error_calculation = f'\\begin\u007bequation\u007d \\label\u007b\u007d \\Delta {eq.term_right()}_\u007b{j}\u007d = {latex_deriv} ={latex_deriv_with_numbers}{eq.unit_term()} = {runde(calculate_total_error(eq.term_left(), table {hier nur die Zeile j}, *var))} {eq.unit_right_term()}\\end\u007bequation\u007d\\\\' '''
         
         print(latex_error_calculation)
@@ -122,7 +119,7 @@ def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
 
 def insert_numbers_for_variables(term = str, table = {}, table_row = int,  *var):
     eq_with_numbers = sp.simplify(term)  
-    for i in range(1,len(var)):    
+    for i in range(0,len(var)):    #1 zu 0 geändert
         eq_with_numbers=eq_with_numbers.subs({var[i]: table[str(var[i])][table_row]}) #Ersetzt alle variablen mit Wert j
         pass
     return(eq_with_numbers)
