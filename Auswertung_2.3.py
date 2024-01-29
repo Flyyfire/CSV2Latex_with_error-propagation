@@ -149,7 +149,6 @@ def insert_numbers_for_variables(term = str, table = {}, table_row = int,  *var)
     return(value, unit)'''
 
 
-
 def calculate_total_error(term = str, table ={}, *var): #var_number durch schlüssel ersetzen
     eq_left_total_error=0
     for var_ in var:
@@ -174,16 +173,17 @@ def runde(zahl = float, runden_auf_n_stellen = int):
     else:
         return round(zahl, runden_auf_n_stellen - len(str(int(abs(zahl)))))
     
-def runde_array(var = list[int], runden_auf_n_stellen = int):
+def runde_array(var = list[float], runden_auf_n_stellen = int):
     #for i in var: 
-    for i in range(1,len(var)):     #1 da die Keys weggelassen werden sollen     
+    for i in range(0,len(var)):     #1 da die Keys weggelassen werden sollen     
 
         if type(i) != int:
             raise TypeError("only use int as an imput type!")
     # runde auf insgesammt n stellen
     return_ = []
     #for i in var:
-    for i in range(1,len(var)):     #1 da die Keys weggelassen werden sollen     
+    #for i in range(0,len(var)):     #1 da die Keys weggelassen werden sollen  
+    for i in   
         if i == 0:
             return_.append(0)
         elif abs(i) < 1:
