@@ -86,15 +86,13 @@ def read_from_csv(filename, delimiter = ";"):
                     table[reading_table[i]].append(float(line[i]))
     return (table,units)
 
-
 table_index = 0  
 def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var): #dict ist datentyp
     global runden_auf_n_stellen
     #for loop over every entry of the table.
 
-    '''#Muss hier hier nicht durch jede Spalte anstatt jede Zeile?
-    for table_index in range(len(table[list(table.keys())[0]])): #j für j verschiedene Messwerte '''
-    for table_index in range(len(table.keys())): #falsch da die Schleife dadrunter das gleiche macht
+    for table_index in range(len(table[list(table.keys())[0]])): #j für j verschiedene Messwerte 
+    #for table_index in range(len(table.keys())): #falsch da die Schleife dadrunter das gleiche macht
         latex_deriv=''
         latex_deriv_with_numbers=''
         #for loop for every symbol that shou by 
@@ -107,7 +105,6 @@ def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
             #Das  was hier für eine Variable gemacht wird soll für alle gemacht werden. (das Folgende ist die alte Version)
             #latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: runde((table[var[var_]][j]), runden_auf_n_stellen)})))} \cdot {units[var[var_]]}
             
-
 
         '''latex_error_calculation = f'\\begin\u007bequation\u007d \\Delta {eq.term_left()}_\u007b{j}\u007d = {latex_deriv}={latex_deriv_with_numbers} = {runde(calculate_total_error(eq.term_left, table, *var))} eq_term_right_unit\\end\u007bequation\u007d\\\\' '''
 
