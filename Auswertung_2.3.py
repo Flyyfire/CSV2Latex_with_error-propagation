@@ -102,7 +102,7 @@ def print_latex_error_calculation(eq=equation, table = dict, units = dict,*var):
             latex_deriv += f'\\Delta {var[var_]}_\u007b{table_index}\u007d \cdot {sp.latex(sp.diff(eq.term_left(),var[var_]))}'#Ableitung ohne Wert, ok
 
             #Ableitung mit Zahlen            
-            latex_deriv_with_numbers += f'+ {sp.latex( insert_numbers_for_variables(sp.diff(eq.term_left(),var[var_]),table, table_index, runde_array(list(table.items())[table_index], runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'# da die ersten beiden Zeilen andere Werte enthalten
+            latex_deriv_with_numbers += f'+ {sp.latex( insert_numbers_for_variables(sp.diff(eq.term_left(),var[var_]),table, table_index, runde_array(list(table.items())[table_index][1], runden_auf_n_stellen) ))} \cdot {units[var[var_]]}'# da die ersten beiden Zeilen andere Werte enthalten
 
             #Das  was hier für eine Variable gemacht wird soll für alle gemacht werden. (das Folgende ist die alte Version)
             #latex_deriv_with_numbers += f'+ {sp.latex(((sp.diff(eq.term_left(),var[var_])).subs({var[var_]: runde((table[var[var_]][j]), runden_auf_n_stellen)})))} \cdot {units[var[var_]]}
@@ -178,7 +178,7 @@ def runde_array(var = list[float], runden_auf_n_stellen = int):
     for i in var:     #1 da die Keys weggelassen werden sollen     
 
         if not (type(i) == int or type(i) == float):
-            raise TypeError("only use int as an imput type! : " + str(type(i)))
+            raise TypeError("only use int as an imput type! : " + str(type(i)) + "input var = " + str(var))
     # runde auf insgesammt n stellen
     return_ = []
     #for i in var:
