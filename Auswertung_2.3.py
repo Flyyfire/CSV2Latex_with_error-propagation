@@ -177,7 +177,7 @@ def runde_array(var = list[float], runden_auf_n_stellen = int):
     #for i in var: 
     for i in var:     #1 da die Keys weggelassen werden sollen     
 
-        if type(i) != int or type(i) != float:
+        if not (type(i) == int or type(i) == float):
             raise TypeError("only use int as an imput type! : " + str(type(i)))
     # runde auf insgesammt n stellen
     return_ = []
@@ -193,7 +193,15 @@ def runde_array(var = list[float], runden_auf_n_stellen = int):
             return_.append(round(i, runden_auf_n_stellen - len(str(int(abs(i))))))
     return(return_)
 
+def test_runden_array():
+    testste = [100,2000,30000,400000,100.1,100.12, 100.123, 100.1234, 100.12345, 100.123456, 100.1234567]
+    for testcase in testste:
+        print(runde(testcase,4))
+    print(runde_array(testste,4))
+
 if __name__ == "__main__":
+    #test_runden_array()
+    #exit(0)
     skript_verzeichnis = os.path.dirname(os.path.abspath(__file__)) #Aktuelles Skript-Verzeichnis als Arbeitsverzeichnis setzen
     os.chdir(skript_verzeichnis)    #print("Aktuelles Arbeitsverzeichnis:", os.getcwd()) #Aktuelles Arbeitsverzeichnis ausgeben, um sicherzustellen, dass es geändert wurde  
     main()
